@@ -60,4 +60,5 @@ public class Comment extends BaseTimeEntity {
         this.quiz = quiz;
         quiz.getComments().add(this);
     }
+
 }

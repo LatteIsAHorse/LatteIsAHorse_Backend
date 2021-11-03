@@ -39,4 +39,5 @@ out/
 
 ### Custom ###
 application.yml
+application-key.yml
 firebase-key.json
