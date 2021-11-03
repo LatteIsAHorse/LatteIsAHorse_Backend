@@ -85,6 +85,10 @@ public class User {
 
     private String phoneNo;
 
+    @Enumerated(EnumType.STRING)
+    private RoleType role;
+
     @Convert(converter = UserStateConverter.class)
     private UserState state;
+
 }

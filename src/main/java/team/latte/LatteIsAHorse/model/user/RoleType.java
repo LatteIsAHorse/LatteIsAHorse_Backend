@@ -2,17 +2,19 @@ package team.latte.LatteIsAHorse.model.user;
 
 import team.latte.LatteIsAHorse.common.domain.EnumCommonType;
 
-public enum UserState implements EnumCommonType {
+public enum RoleType implements EnumCommonType {
 
-    VALID("활동 가능한 유저",1),
-    SUSPEND("정지된 유저",2);
+    ROEL_UNKNOWN(1,"알수없음"),
+    ROLE_GUEST(2,"대학 인증 대기중"),
+    ROLE_USER(3, "유저"),
+    ROLE_ADMIN(4,"관리자");
 
-    private String desc;
     private int code;
+    private String desc;
 
-    UserState(String desc, int code) {
-        this.desc = desc;
+    RoleType(int code, String desc) {
         this.code = code;
+        this.desc = desc;
     }
 
     @Override
