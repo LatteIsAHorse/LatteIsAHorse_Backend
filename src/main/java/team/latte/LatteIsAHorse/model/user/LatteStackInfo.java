@@ -1,9 +1,6 @@
 package team.latte.LatteIsAHorse.model.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import team.latte.LatteIsAHorse.common.domain.BaseTimeEntity;
 import team.latte.LatteIsAHorse.model.quiz.Quiz;
 import team.latte.LatteIsAHorse.model.user.User;
@@ -11,9 +8,8 @@ import team.latte.LatteIsAHorse.model.user.User;
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
 @Entity
 public class LatteStackInfo extends BaseTimeEntity {
 
@@ -37,5 +33,13 @@ public class LatteStackInfo extends BaseTimeEntity {
     public void setQuiz(Quiz quiz) {
         this.quiz = quiz;
         quiz.getLatteStackInfos().add(this);
+    }
+
+    public static LatteStackInfo createLatteStackInfo(Quiz quiz, User user) {
+        LatteStackInfo latteStackInfo = new LatteStackInfo();
+        latteStackInfo.setUser(user);
+        latteStackInfo.setQuiz(quiz);
+        user.addLatteStack();
+        return latteStackInfo;
     }
 }

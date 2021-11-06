@@ -1,9 +1,6 @@
 package team.latte.LatteIsAHorse.model.tag;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import team.latte.LatteIsAHorse.model.post.PostTag;
 import team.latte.LatteIsAHorse.model.quiz.QuizTag;
 
@@ -12,9 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
 @Entity
 public class Tag {
 
@@ -29,4 +25,10 @@ public class Tag {
     private List<QuizTag> quizTags = new ArrayList<>();
 
     private String name;
+
+    public static Tag createTag(String name) {
+        Tag tag = new Tag();
+        tag.name = name;
+        return tag;
+    }
 }

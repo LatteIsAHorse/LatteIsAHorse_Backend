@@ -1,28 +1,38 @@
 package team.latte.LatteIsAHorse.model.quiz;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
 @Entity
+@Slf4j
 public class Answer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answerId;
 
-    @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL)
-    private List<QuizAnswer> quizAnswers = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "quiz")
+    private Quiz quiz;
 
     private String content;
 
+    public void setQuiz(Quiz quiz) {
+        this.quiz = quiz;
+        quiz.getAnswers().add(this);
+    }
+
+    public static Answer createAnswer(Quiz quiz, String content) {
+        Answer answer = new Answer();
+        answer.content = content;
+        answer.setQuiz(quiz);
+        return answer;
+    }
 }

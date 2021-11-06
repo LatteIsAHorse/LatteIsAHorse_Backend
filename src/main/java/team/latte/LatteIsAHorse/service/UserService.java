@@ -23,14 +23,14 @@ public class UserService {
 
     @Transactional
     public User join(SignUpReq req) {
-        if(userRepository.findByEmailAndRole(req.getEmail(), RoleType.ROEL_UNKNOWN.getCode()).isPresent())
+        if(userRepository.findByEmailAndRoleOnlyNotLeave(req.getEmail(), RoleType.ROEL_UNKNOWN).isPresent())
             return null;
 
         User user = User.builder()
                 .email(req.getEmail())
                 .password(passwordEncoder.encode(req.getPassword()))
                 .state(UserState.VALID)
-                .role(RoleType.ROLE_GUEST)
+                .role(RoleType.ROLE_USER) // 임시로 USER로 해둠. 운영시에는 GUEST로 다시 바꿔야함
                 .build();
         User savedUser = userRepository.save(user);
         return savedUser;
@@ -38,9 +38,13 @@ public class UserService {
 
     @Transactional
     public User login(SignInReq req) {
-        User user = userRepository.findByEmailAndRole(req.getEmail(), RoleType.ROEL_UNKNOWN.getCode())
+        User user = userRepository.findByEmailAndRoleOnlyNotLeave(req.getEmail(), RoleType.ROEL_UNKNOWN)
             .orElse(null);
         return user;
     }
 
+    @Transactional
+    public void addLatteStack(User user) {
+        user.addLatteStack();
+    }
 }

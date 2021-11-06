@@ -1,11 +1,10 @@
 package team.latte.LatteIsAHorse.model.quiz;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import team.latte.LatteIsAHorse.common.domain.BaseTimeEntity;
 import team.latte.LatteIsAHorse.model.comment.Comment;
+import team.latte.LatteIsAHorse.model.post.Image;
 import team.latte.LatteIsAHorse.model.user.LatteStackInfo;
 import team.latte.LatteIsAHorse.model.user.User;
 
@@ -16,8 +15,8 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
+@Slf4j
 public class Quiz extends BaseTimeEntity {
 
     @Id
@@ -33,11 +32,17 @@ public class Quiz extends BaseTimeEntity {
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
     private List<QuizTag> quizTags = new ArrayList<>();
 
-    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
-    private List<QuizAnswer> quizAnswers = new ArrayList<>();
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.PERSIST)
+    private List<Answer> answers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "quiz")
+    private List<UserAnswer> userAnswers = new ArrayList<>();
 
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "quiz")
+    private List<Image> images = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user")
@@ -54,4 +59,11 @@ public class Quiz extends BaseTimeEntity {
         user.getQuizzes().add(this);
     }
 
+    @Builder
+    public Quiz(User user, String title, int answer, String writer) {
+        this.user = user;
+        this.title = title;
+        this.answer = answer;
+        this.writer = writer;
+    }
 }

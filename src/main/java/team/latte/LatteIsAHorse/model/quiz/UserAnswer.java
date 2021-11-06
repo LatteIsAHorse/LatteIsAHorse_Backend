@@ -24,17 +24,17 @@ public class UserAnswer extends BaseTimeEntity {
     @JoinColumn(name = "user")
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "quiz_answer")
-    private QuizAnswer quizAnswer;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "quiz")
+    private Quiz quiz;
 
     public void setUser(User user) {
         this.user = user;
         user.getUserAnswers().add(this);
     }
 
-    public void setQuizAnswer(QuizAnswer quizAnswer) {
-        this.quizAnswer = quizAnswer;
-        quizAnswer.setUserAnswer(this);
+    public void setQuiz(Quiz quiz) {
+        this.quiz = quiz;
+        quiz.getUserAnswers().add(this);
     }
 }

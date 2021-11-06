@@ -1,17 +1,13 @@
 package team.latte.LatteIsAHorse.model.quiz;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import team.latte.LatteIsAHorse.model.tag.Tag;
 
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
 @Entity
 public class QuizTag {
 
@@ -26,4 +22,21 @@ public class QuizTag {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tag")
     private Tag tag;
+
+    public void setQuiz(Quiz quiz) {
+        this.quiz = quiz;
+        quiz.getQuizTags().add(this);
+    }
+
+    public void setTag(Tag tag) {
+        this.tag = tag;
+        tag.getQuizTags().add(this);
+    }
+
+    public static QuizTag createQuizReq(Quiz quiz, Tag tag) {
+        QuizTag quizTag = new QuizTag();
+        quizTag.setQuiz(quiz);
+        quizTag.setTag(tag);
+        return quizTag;
+    }
 }
