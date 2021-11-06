@@ -1,16 +1,13 @@
 package team.latte.LatteIsAHorse.model.post;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import team.latte.LatteIsAHorse.model.quiz.Quiz;
 
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
 @Entity
 public class Image {
 
@@ -22,10 +19,32 @@ public class Image {
     @JoinColumn(name = "post")
     private Post post;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "quiz")
+    private Quiz quiz;
+
     private String url;
 
     public void setPost(Post post) {
         this.post = post;
         post.getImages().add(this);
+    }
+
+    public void setQuiz(Quiz quiz) {
+        this.quiz = quiz;
+        quiz.getImages().add(this);
+    }
+
+    public void changeUrl(String url) {
+        this.url = url;
+    }
+
+    public static Image createImage(Quiz quiz, Post post, String url) {
+        Image image = new Image();
+
+        if (quiz != null) image.setQuiz(quiz);
+        if (post != null) image.setPost(post);
+        image.changeUrl(url);
+        return image;
     }
 }

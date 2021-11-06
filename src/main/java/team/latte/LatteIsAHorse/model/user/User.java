@@ -91,4 +91,21 @@ public class User {
     @Convert(converter = UserStateConverter.class)
     private UserState state;
 
+    @Builder
+    public User(String email, String password, String college, int grade, String nickname, LocalDateTime lastLogin, int latteStack, String phoneNo, RoleType role, UserState state) {
+        this.email = email;
+        this.password = password;
+        this.college = college;
+        this.grade = grade;
+        this.nickname = nickname;
+        this.lastLogin = lastLogin;
+        this.latteStack = latteStack;
+        this.phoneNo = phoneNo;
+        this.role = role;
+        this.state = state;
+    }
+
+    public void addLatteStack() {
+        this.latteStack++;
+    }
 }
