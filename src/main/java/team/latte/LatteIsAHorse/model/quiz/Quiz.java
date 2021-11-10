@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import team.latte.LatteIsAHorse.common.domain.BaseTimeEntity;
 import team.latte.LatteIsAHorse.model.comment.Comment;
 import team.latte.LatteIsAHorse.model.post.Image;
+import team.latte.LatteIsAHorse.model.post.Scrap;
 import team.latte.LatteIsAHorse.model.user.LatteStackInfo;
 import team.latte.LatteIsAHorse.model.user.User;
 
@@ -25,6 +26,9 @@ public class Quiz extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
     private List<QuizLike> quizLikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
+    private List<Scrap> scraps = new ArrayList<>();
 
     @OneToMany(mappedBy = "quiz")
     private List<LatteStackInfo> latteStackInfos = new ArrayList<>();
@@ -54,6 +58,8 @@ public class Quiz extends BaseTimeEntity {
 
     private String writer;
 
+    private Long views;
+
     public void setUser(User user) {
         this.user = user;
         user.getQuizzes().add(this);
@@ -65,5 +71,6 @@ public class Quiz extends BaseTimeEntity {
         this.title = title;
         this.answer = answer;
         this.writer = writer;
+        this.views = 0L;
     }
 }

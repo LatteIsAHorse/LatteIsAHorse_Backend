@@ -17,7 +17,10 @@ public enum ResponseMessage {
     COLLEGE_AUTH_FAIL("대학 인증에 실패했습니다."),
 
     QUIZ_CREATED_SUCCESS("퀴즈 등록이 성공했습니다."),
-    QUIZ_CREATED_FAIL("퀴즈 등록이 실패했습니다.");
+    QUIZ_CREATED_FAIL("퀴즈 등록이 실패했습니다."),
+
+    QUIZ_LIST_SUCCESS("퀴즈 목록 조회가 성공했습니다."),
+    QUIZ_LIST_FAIL("퀴즈 목록 조회가 실패헀습니다.");
 
     private final String message;
 }

@@ -25,9 +25,6 @@ public class Post extends BaseTimeEntity {
     private Long postId;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<Scrap> scraps = new ArrayList<>();
-
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostLike> postLikes = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
