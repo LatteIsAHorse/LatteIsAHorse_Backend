@@ -10,6 +10,7 @@ import team.latte.LatteIsAHorse.config.response.ResponseMessage;
 import team.latte.LatteIsAHorse.config.security.authentication.CustomUserDetails;
 import team.latte.LatteIsAHorse.dto.AllQuizRes;
 import team.latte.LatteIsAHorse.dto.CreateQuizReq;
+import team.latte.LatteIsAHorse.dto.QuizRes;
 import team.latte.LatteIsAHorse.model.quiz.Quiz;
 import team.latte.LatteIsAHorse.service.QuizService;
 import team.latte.LatteIsAHorse.service.UserService;
@@ -24,7 +25,6 @@ public class QuizController {
 
     private final FirebaseFileService firebaseFileService;
     private final QuizService quizService;
-    private final UserService userService;
 
     /**
      * 퀴즈 생성
@@ -59,5 +59,20 @@ public class QuizController {
         List<AllQuizRes> allQuizRes = quizService.allQuizList();
 
         return ApiResponse.of(allQuizRes, HttpStatus.OK, ResponseMessage.QUIZ_LIST_SUCCESS);
+    }
+
+    /**
+     * 퀴즈 세부 조회
+     * @param quizId 조회할 퀴즈 ID
+     * @param customUserDetails : 인증된 유저 객체
+     * @return
+     */
+    @GetMapping("/quiz/{quizId}")
+    public ApiResponse<Object> detail(@PathVariable Long quizId, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        QuizRes quizRes = quizService.detail(quizId, customUserDetails.getUsername());
+        if (quizRes == null)
+            return ApiResponse.of(HttpStatus.FORBIDDEN, ResponseMessage.QUIZ_DETAIL_FAIL);
+
+        return ApiResponse.of(quizRes, HttpStatus.OK, ResponseMessage.QUIZ_DETAIL_SUCCESS);
     }
 }

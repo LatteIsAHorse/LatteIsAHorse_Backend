@@ -2,6 +2,7 @@ package team.latte.LatteIsAHorse.service;
 
 import team.latte.LatteIsAHorse.dto.AllQuizRes;
 import team.latte.LatteIsAHorse.dto.CreateQuizReq;
+import team.latte.LatteIsAHorse.dto.QuizRes;
 import team.latte.LatteIsAHorse.model.quiz.Quiz;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface QuizService {
     Long issueLatteStack(Quiz quiz, String userEmail);
 
     List<AllQuizRes> allQuizList();
+
+    QuizRes detail(Long quizId, String userEmail);
 }

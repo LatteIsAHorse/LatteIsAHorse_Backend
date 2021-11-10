@@ -16,6 +16,7 @@ import team.latte.LatteIsAHorse.model.post.PostLike;
 import team.latte.LatteIsAHorse.model.post.Scrap;
 import team.latte.LatteIsAHorse.model.quiz.Quiz;
 import team.latte.LatteIsAHorse.model.quiz.QuizLike;
+import team.latte.LatteIsAHorse.model.quiz.ReportSuspicion;
 import team.latte.LatteIsAHorse.model.quiz.UserAnswer;
 
 import javax.persistence.*;
@@ -69,6 +70,9 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Reply> replies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<ReportSuspicion> reportSuspicions = new ArrayList<>();
 
     private String email;
 

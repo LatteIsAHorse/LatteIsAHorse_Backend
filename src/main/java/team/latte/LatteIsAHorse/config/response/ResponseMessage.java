@@ -20,7 +20,10 @@ public enum ResponseMessage {
     QUIZ_CREATED_FAIL("퀴즈 등록이 실패했습니다."),
 
     QUIZ_LIST_SUCCESS("퀴즈 목록 조회가 성공했습니다."),
-    QUIZ_LIST_FAIL("퀴즈 목록 조회가 실패헀습니다.");
+    QUIZ_LIST_FAIL("퀴즈 목록 조회가 실패했습니다."),
+
+    QUIZ_DETAIL_SUCCESS("퀴즈 조회가 성공했습니다."),
+    QUIZ_DETAIL_FAIL("퀴즈 조회가 실패했습니다.");
 
     private final String message;
 }

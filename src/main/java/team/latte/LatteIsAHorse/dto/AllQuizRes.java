@@ -23,9 +23,9 @@ public class AllQuizRes {
 
     private Long views;
 
-    private int quizLikes;
+    private Long quizLikesCnt;
 
-    private int commentsCnt;
+    private Long commentsCnt;
 
     private String imageUrl;
 
@@ -39,8 +39,8 @@ public class AllQuizRes {
                 .title(quiz.getTitle())
                 .writer(quiz.getWriter())
                 .views(quiz.getViews())
-                .quizLikes(quiz.getQuizLikes().size())
-                .commentsCnt(quiz.getComments().size())
+                .quizLikesCnt(Long.valueOf(quiz.getQuizLikes().size()))
+                .commentsCnt(Long.valueOf(quiz.getComments().size()))
                 .imageUrl(quiz.getImages().size() > 0 ? quiz.getImages().get(0).getUrl() : null)
                 .isScrap(quiz.getScraps().size() > 0 ? true : false)
                 .tags(quiz.getQuizTags().size() > 0 ? quiz.getQuizTags().stream().map(quizTag -> quizTag.getTag().getName()).collect(Collectors.toList()): null)

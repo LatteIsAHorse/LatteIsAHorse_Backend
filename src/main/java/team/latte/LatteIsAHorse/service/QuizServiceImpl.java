@@ -6,10 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.latte.LatteIsAHorse.dto.AllQuizRes;
 import team.latte.LatteIsAHorse.dto.CreateQuizReq;
+import team.latte.LatteIsAHorse.dto.QuizRes;
 import team.latte.LatteIsAHorse.model.post.Image;
-import team.latte.LatteIsAHorse.model.quiz.Answer;
-import team.latte.LatteIsAHorse.model.quiz.Quiz;
-import team.latte.LatteIsAHorse.model.quiz.QuizTag;
+import team.latte.LatteIsAHorse.model.quiz.*;
 import team.latte.LatteIsAHorse.model.tag.Tag;
 import team.latte.LatteIsAHorse.model.user.LatteStackInfo;
 import team.latte.LatteIsAHorse.model.user.User;
@@ -30,6 +29,8 @@ public class QuizServiceImpl implements QuizService {
     private final QuizTagRepository quizTagRepository;
     private final ImageRepository imageRepository;
     private final LatteStackInfoRepository latteStackInfoRepository;
+    private final QuizLikeRepository quizLikeRepository;
+    private final ReportSuspicionRepository reportSuspicionRepository;
 
     /**
      * 퀴즈를 생성한다.
@@ -143,5 +144,33 @@ public class QuizServiceImpl implements QuizService {
     public List<AllQuizRes> allQuizList() {
         List<Quiz> allQuiz = quizRepository.findAll();
         return AllQuizRes.listOf(allQuiz);
+    }
+
+    /**
+     * 퀴즈 세부 조회
+     * @return
+     */
+    @Override
+    public QuizRes detail(Long quizId, String userEmail) {
+        Quiz quiz = quizRepository.findById(quizId)
+                .orElse(null);
+
+        User user = userRepository.findByEmail(userEmail)
+                .orElse(null);
+
+        if (quiz == null || user == null) {
+            return null;
+        }
+
+        boolean quizLike = false;
+        boolean reportSuspicion = false;
+
+        if(quizLikeRepository.findByUserAndQuiz(user, quiz).orElse(null) != null)
+            quizLike = true;
+
+        if(reportSuspicionRepository.findByUserAndQuiz(user, quiz).orElse(null) != null)
+            reportSuspicion = true;
+
+        return QuizRes.of(quiz, quizLike, reportSuspicion);
     }
 }
