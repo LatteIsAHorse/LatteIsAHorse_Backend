@@ -31,6 +31,8 @@ public class AllQuizRes {
 
     private boolean isScrap;
 
+    private List<String> tags;
+
     public static AllQuizRes of(Quiz quiz) {
         return AllQuizRes.builder()
                 .quizId(quiz.getQuizId())
@@ -41,6 +43,7 @@ public class AllQuizRes {
                 .commentsCnt(quiz.getComments().size())
                 .imageUrl(quiz.getImages().size() > 0 ? quiz.getImages().get(0).getUrl() : null)
                 .isScrap(quiz.getScraps().size() > 0 ? true : false)
+                .tags(quiz.getQuizTags().size() > 0 ? quiz.getQuizTags().stream().map(quizTag -> quizTag.getTag().getName()).collect(Collectors.toList()): null)
                 .build();
     }
 
