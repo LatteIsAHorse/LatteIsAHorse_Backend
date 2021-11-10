@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import team.latte.LatteIsAHorse.common.domain.BaseTimeEntity;
+import team.latte.LatteIsAHorse.model.quiz.Quiz;
 import team.latte.LatteIsAHorse.model.user.User;
 
 import javax.persistence.*;
@@ -25,16 +26,16 @@ public class Scrap extends BaseTimeEntity {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post")
-    private Post post;
+    @JoinColumn(name = "quiz")
+    private Quiz quiz;
 
     public void setUser(User user) {
         this.user = user;
         user.getScraps().add(this);
     }
 
-    public void setPost(Post post) {
-        this.post = post;
-        post.getScraps().add(this);
+    public void setPost(Quiz quiz) {
+        this.quiz = quiz;
+        quiz.getScraps().add(this);
     }
 }

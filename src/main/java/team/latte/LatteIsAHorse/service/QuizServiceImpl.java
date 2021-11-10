@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import team.latte.LatteIsAHorse.dto.AllQuizRes;
 import team.latte.LatteIsAHorse.dto.CreateQuizReq;
 import team.latte.LatteIsAHorse.model.post.Image;
 import team.latte.LatteIsAHorse.model.quiz.Answer;
@@ -51,6 +52,7 @@ public class QuizServiceImpl implements QuizService {
                 .answer(createQuizReq.getAnswer())
                 .title(createQuizReq.getTitle())
                 .writer(user.getNickname())
+
                 .build();
 
         for (String answerContent : createQuizReq.getAnswers()) {
@@ -131,5 +133,15 @@ public class QuizServiceImpl implements QuizService {
         LatteStackInfo latteStackInfo = LatteStackInfo.createLatteStackInfo(quiz, user);
         LatteStackInfo savedLatteStackInfo = latteStackInfoRepository.save(latteStackInfo);
         return savedLatteStackInfo.getLatteStackInfoId();
+    }
+
+    /**
+     * 퀴즈 목록 조회
+     * @return
+     */
+    @Override
+    public List<AllQuizRes> allQuizList() {
+        List<Quiz> allQuiz = quizRepository.findAll();
+        return AllQuizRes.listOf(allQuiz);
     }
 }

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import team.latte.LatteIsAHorse.common.domain.UserGradeConverter;
 import team.latte.LatteIsAHorse.common.domain.UserStateConverter;
 import team.latte.LatteIsAHorse.model.comment.Comment;
 import team.latte.LatteIsAHorse.model.comment.CommentLike;
@@ -75,7 +76,8 @@ public class User {
 
     private String college;
 
-    private int grade;
+    @Convert(converter = UserGradeConverter.class)
+    private UserGrade grade;
 
     private String nickname;
 
@@ -92,7 +94,7 @@ public class User {
     private UserState state;
 
     @Builder
-    public User(String email, String password, String college, int grade, String nickname, LocalDateTime lastLogin, int latteStack, String phoneNo, RoleType role, UserState state) {
+    public User(String email, String password, String college, UserGrade grade, String nickname, LocalDateTime lastLogin, int latteStack, String phoneNo, RoleType role, UserState state) {
         this.email = email;
         this.password = password;
         this.college = college;

@@ -101,4 +101,38 @@ class QuizRepositoryTest {
                 ()-> assertThat(QuizzesbyUser).containsAll(expectedQuizzes)
         );
     }
+
+
+    @Test
+    void findAll() {
+
+        // given
+        User user = User.builder()
+                .email("1234")
+                .state(UserState.VALID)
+                .role(RoleType.ROLE_GUEST)
+                .build();
+        userRepository.save(user);
+
+        Quiz quiz1 = Quiz.builder()
+                .user(user)
+                .build();
+
+        Quiz quiz2 = Quiz.builder()
+                .user(user)
+                .build();
+        quizRepository.save(quiz1);
+        quizRepository.save(quiz2);
+
+        // when
+        List<Quiz> quizzes = quizRepository.findAll();
+
+        // then
+        assertAll(
+                () -> Assertions.assertThat(quizzes.size()).isEqualTo(2),
+                () -> Assertions.assertThat(quizzes.get(0)).isEqualTo(quiz1),
+                () -> Assertions.assertThat(quizzes.get(1)).isEqualTo(quiz2)
+        );
+
+    }
 }

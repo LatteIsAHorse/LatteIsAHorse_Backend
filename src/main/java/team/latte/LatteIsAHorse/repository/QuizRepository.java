@@ -48,4 +48,10 @@ public class QuizRepository {
                 .where(quiz.quizId.eq(quizId))
                 .execute();
     }
+
+    public List<Quiz> findAll() {
+        return queryFactory
+                .selectFrom(quiz)
+                .fetch();
+    }
 }

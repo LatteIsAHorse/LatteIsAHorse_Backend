@@ -8,12 +8,14 @@ import team.latte.LatteIsAHorse.common.util.firebase.FirebaseFileService;
 import team.latte.LatteIsAHorse.config.response.ApiResponse;
 import team.latte.LatteIsAHorse.config.response.ResponseMessage;
 import team.latte.LatteIsAHorse.config.security.authentication.CustomUserDetails;
+import team.latte.LatteIsAHorse.dto.AllQuizRes;
 import team.latte.LatteIsAHorse.dto.CreateQuizReq;
 import team.latte.LatteIsAHorse.model.quiz.Quiz;
 import team.latte.LatteIsAHorse.service.QuizService;
 import team.latte.LatteIsAHorse.service.UserService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -46,5 +48,16 @@ public class QuizController {
         }
         quizService.issueLatteStack(quiz, customUserDetails.getUsername());
         return ApiResponse.of(HttpStatus.CREATED, ResponseMessage.QUIZ_CREATED_SUCCESS);
+    }
+
+    /**
+     * 퀴즈 목록 조회
+     * @return
+     */
+    @GetMapping("/quiz")
+    public ApiResponse<Object> allQuizList() {
+        List<AllQuizRes> allQuizRes = quizService.allQuizList();
+
+        return ApiResponse.of(allQuizRes, HttpStatus.OK, ResponseMessage.QUIZ_LIST_SUCCESS);
     }
 }

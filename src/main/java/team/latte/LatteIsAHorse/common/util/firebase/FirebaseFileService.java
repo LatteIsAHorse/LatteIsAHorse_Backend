@@ -31,6 +31,12 @@ public class FirebaseFileService implements FileService {
 
     private Storage storage;
 
+    @Value("${firebase.image.pre_uri}")
+    private String preUri;
+
+    @Value("${firebase.image.post_uri}")
+    private String postUri;
+
     @EventListener
     public void init(ApplicationReadyEvent event) {
         try {
@@ -52,7 +58,7 @@ public class FirebaseFileService implements FileService {
             imageName = uploadFile(file, fileName);                // 파일 업로드
             file.delete();                                         // 프로젝트 폴더에 저장된 업로드 파일 삭제
 
-            return imageName;
+            return preUri + imageName + postUri;
         } catch (Exception e) {
             throw new CustomException(ExceptionStatus.SERVER_ERROR);
         }
@@ -81,6 +87,7 @@ public class FirebaseFileService implements FileService {
     }
 
     public boolean deleteFile(String fileName) {
+        fileName = fileName.replace(preUri,"").replace(postUri,"");
         BlobInfo blobInfo = getBlobInfo(fileName);
         storage.delete(blobInfo.getBlobId());
         return true;

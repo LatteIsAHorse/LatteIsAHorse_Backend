@@ -30,6 +30,9 @@ public class UserService {
                 .email(req.getEmail())
                 .password(passwordEncoder.encode(req.getPassword()))
                 .state(UserState.VALID)
+                .nickname(req.getNickname())
+                .college(req.getCollege())
+                .grade(req.getGrade())
                 .role(RoleType.ROLE_USER) // 임시로 USER로 해둠. 운영시에는 GUEST로 다시 바꿔야함
                 .build();
         User savedUser = userRepository.save(user);
