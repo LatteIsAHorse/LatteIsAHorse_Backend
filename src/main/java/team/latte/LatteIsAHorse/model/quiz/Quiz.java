@@ -48,6 +48,9 @@ public class Quiz extends BaseTimeEntity {
     @OneToMany(mappedBy = "quiz")
     private List<Image> images = new ArrayList<>();
 
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
+    private List<ReportSuspicion> reportSuspicions = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user")
     private User user;
