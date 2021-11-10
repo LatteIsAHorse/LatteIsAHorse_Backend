@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import team.latte.LatteIsAHorse.model.quiz.Answer;
 import team.latte.LatteIsAHorse.model.quiz.Quiz;
+import team.latte.LatteIsAHorse.model.quiz.UserAnswer;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,7 +31,9 @@ public class QuizRes {
 
     private Long reportSuspicionCnt;
 
-    public static QuizRes of(Quiz quiz, boolean quizLike, boolean reportSuspicion) {
+    private int choiceNum;
+
+    public static QuizRes of(Quiz quiz, boolean quizLike, boolean reportSuspicion, UserAnswer userAnswer) {
 
         return QuizRes.builder()
                 .quizId(quiz.getQuizId())
@@ -40,6 +43,7 @@ public class QuizRes {
                 .quizLike(quizLike)
                 .reportSuspicion(reportSuspicion)
                 .reportSuspicionCnt(Long.valueOf(quiz.getReportSuspicions().size()))
+                .choiceNum(userAnswer != null ? userAnswer.getChoiceNum() : -1)
                 .build();
     }
 

@@ -28,6 +28,8 @@ public class UserAnswer extends BaseTimeEntity {
     @JoinColumn(name = "quiz")
     private Quiz quiz;
 
+    private int choiceNum;
+
     public void setUser(User user) {
         this.user = user;
         user.getUserAnswers().add(this);

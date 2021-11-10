@@ -31,6 +31,7 @@ public class QuizServiceImpl implements QuizService {
     private final LatteStackInfoRepository latteStackInfoRepository;
     private final QuizLikeRepository quizLikeRepository;
     private final ReportSuspicionRepository reportSuspicionRepository;
+    private final UserAnswerRepository userAnswerRepository;
 
     /**
      * 퀴즈를 생성한다.
@@ -171,6 +172,8 @@ public class QuizServiceImpl implements QuizService {
         if(reportSuspicionRepository.findByUserAndQuiz(user, quiz).orElse(null) != null)
             reportSuspicion = true;
 
-        return QuizRes.of(quiz, quizLike, reportSuspicion);
+        UserAnswer userAnswer = userAnswerRepository.findByUserAndQuiz(user, quiz).orElse(null);
+
+        return QuizRes.of(quiz, quizLike, reportSuspicion, userAnswer);
     }
 }
