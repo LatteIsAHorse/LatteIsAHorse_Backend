@@ -42,7 +42,7 @@ public class AllQuizRes {
                 .quizLikesCnt(Long.valueOf(quiz.getQuizLikes().stream().filter(quizLike -> quizLike.getValid() == 1).count()))
                 .commentsCnt(Long.valueOf(quiz.getComments().size()))
                 .imageUrl(quiz.getImages().size() > 0 ? quiz.getImages().get(0).getUrl() : null)
-                .isScrap(quiz.getScraps().size() > 0 ? true : false)
+                .isScrap(quiz.getBookmarks().size() > 0 ? true : false)
                 .tags(quiz.getQuizTags().size() > 0 ? quiz.getQuizTags().stream().map(quizTag -> quizTag.getTag().getName()).collect(Collectors.toList()): null)
                 .build();
     }

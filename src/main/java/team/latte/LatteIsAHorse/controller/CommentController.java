@@ -39,7 +39,7 @@ public class CommentController {
         if (comment == null)
             return ApiResponse.of(HttpStatus.FORBIDDEN, ResponseMessage.COMMENT_CREATED_FAIL);
 
-        return ApiResponse.of(HttpStatus.OK, ResponseMessage.COMMENT_CREATED_SUCCESS);
+        return ApiResponse.of(HttpStatus.CREATED, ResponseMessage.COMMENT_CREATED_SUCCESS);
     }
 
     /**
@@ -71,7 +71,7 @@ public class CommentController {
         if (reply == null)
             return ApiResponse.of(HttpStatus.FORBIDDEN, ResponseMessage.REPLY_CREATED_FAIL);
 
-        return ApiResponse.of(HttpStatus.OK, ResponseMessage.REPLY_CREATED_SUCCESS);
+        return ApiResponse.of(HttpStatus.CREATED, ResponseMessage.REPLY_CREATED_SUCCESS);
     }
 
     /**

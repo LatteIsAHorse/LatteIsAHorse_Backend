@@ -107,4 +107,5 @@ public class QuizController {
         return ApiResponse.of(HttpStatus.OK, quizService.likeOrCancelQuiz(quizId, customUserDetails.getUsername()) == 1 ?
                 ResponseMessage.QUIZ_LIKE_SUCCESS : ResponseMessage.QUIZ_LIKE_CANCEL_SUCCESS);
     }
+
 }
