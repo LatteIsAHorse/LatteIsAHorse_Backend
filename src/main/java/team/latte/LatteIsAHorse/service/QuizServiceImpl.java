@@ -13,6 +13,7 @@ import team.latte.LatteIsAHorse.model.quiz.*;
 import team.latte.LatteIsAHorse.model.tag.Tag;
 import team.latte.LatteIsAHorse.model.user.LatteStackInfo;
 import team.latte.LatteIsAHorse.model.user.User;
+import team.latte.LatteIsAHorse.model.user.UserState;
 import team.latte.LatteIsAHorse.repository.*;
 
 import java.util.List;
@@ -36,14 +37,14 @@ public class QuizServiceImpl implements QuizService {
 
     /**
      * 퀴즈를 생성한다.
-     * @param createQuizReq 퀴즈 생성 DTO
-     * @param userEmail 작성자 이메일
+     * @param createQuizReq : 퀴즈 생성 DTO
+     * @param userEmail : 작성자 이메일
      * @return
      */
     @Transactional
     @Override
     public Quiz createQuiz(CreateQuizReq createQuizReq, String userEmail) {
-        User user = userRepository.findByEmail(userEmail)
+        User user = userRepository.findByEmailAndState(userEmail, UserState.VALID)
                 .orElse(null);
 
         if (createQuizReq.getAnswers().size() < createQuizReq.getAnswer()) {
@@ -68,6 +69,12 @@ public class QuizServiceImpl implements QuizService {
         return savedQuiz;
     }
 
+    /**
+     * 퀴즈 업데이트
+     * @param quiz : 퀴즈
+     * @param url : 이미지가 저장된 URL
+     * @return
+     */
     @Transactional
     @Override
     public Long updateQuizImage(Quiz quiz, String url) {
@@ -110,7 +117,7 @@ public class QuizServiceImpl implements QuizService {
 
     /**
      * 이미지 파일 업로드 실패시 임시 저장된 Quiz를 삭제한다.
-     * @param quiz 퀴즈
+     * @param quiz : 퀴즈
      * @return
      */
     @Transactional
@@ -123,8 +130,8 @@ public class QuizServiceImpl implements QuizService {
 
     /**
      * 유저에게 라떼 스택을 발급해줍니다.
-     * @param quizId 퀴즈 번호
-     * @param userEmail 유저 이메일
+     * @param quizId : 퀴즈 번호
+     * @param userEmail : 유저 이메일
      * @return
      */
     @Transactional
@@ -182,9 +189,9 @@ public class QuizServiceImpl implements QuizService {
 
     /**
      * 퀴즈 풀기 : 답을 선택한다.
-     * @param quizId
-     * @param userEmail
-     * @param req
+     * @param quizId : 조회중인 퀴즈 번호
+     * @param userEmail : 답을 고르는 유저 이메일
+     * @param req : 퀴즈 풀기 DTO
      */
     @Transactional
     @Override
@@ -198,6 +205,11 @@ public class QuizServiceImpl implements QuizService {
         return savedUserAnswer;
     }
 
+    /**
+     * 유저가 고른 퀴즈의 선택지가 정답인지 확인한다.
+     * @param userAnswer : 유저 답안
+     * @return
+     */
     public boolean isCorrectUserAnswer(UserAnswer userAnswer) {
         if (userAnswer.getChoiceNum() == userAnswer.getQuiz().getAnswer()) return true;
         return false;

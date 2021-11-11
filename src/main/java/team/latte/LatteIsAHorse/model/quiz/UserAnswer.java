@@ -1,18 +1,14 @@
 package team.latte.LatteIsAHorse.model.quiz;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import team.latte.LatteIsAHorse.common.domain.BaseTimeEntity;
 import team.latte.LatteIsAHorse.model.user.User;
 
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
 @Entity
 public class UserAnswer extends BaseTimeEntity {
 
