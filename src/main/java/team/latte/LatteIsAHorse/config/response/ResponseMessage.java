@@ -32,7 +32,11 @@ public enum ResponseMessage {
     COMMENT_CREATED_FAIL("댓글 등록에 실패했습니다."),
 
     COMMENT_LIST_SUCCESS("댓글 조회가 성공했습니다."),
-    COMMENT_LIST_FAIL("댓글 조회가 실패했습니다.");
+    COMMENT_LIST_FAIL("댓글 조회가 실패했습니다."),
+
+    QUIZ_LIKE_SUCCESS("좋아요가 성공했습니다."),
+    QUIZ_LIKE_CANCEL_SUCCESS("좋아요가 취소되었습니다."),
+    QUIZ_LIKE_OR_CANCEL_FAIL("좋아요 또는 취소 요청이 실패했습니다.");
 
     private final String message;
 }

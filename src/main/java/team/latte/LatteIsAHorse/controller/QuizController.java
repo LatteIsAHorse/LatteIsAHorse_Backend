@@ -95,4 +95,16 @@ public class QuizController {
 
         return ApiResponse.of(new ChooseAnswerRes(isCorrect), HttpStatus.OK, ResponseMessage.QUIZ_CHOOSE_ANSWER_SUCCESS);
     }
+
+    /**
+     * 퀴즈 좋아요
+     * @param quizId : 조회중인 퀴즈 ID
+     * @param customUserDetails : 인증된 유저 객체
+     * @return
+     */
+    @PostMapping("/quiz/{quizId}/likers")
+    public ApiResponse<Object> likeOrCancelQuiz(@PathVariable Long quizId, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        return ApiResponse.of(HttpStatus.OK, quizService.likeOrCancelQuiz(quizId, customUserDetails.getUsername()) == 1 ?
+                ResponseMessage.QUIZ_LIKE_SUCCESS : ResponseMessage.QUIZ_LIKE_CANCEL_SUCCESS);
+    }
 }

@@ -214,4 +214,30 @@ public class QuizServiceImpl implements QuizService {
         if (userAnswer.getChoiceNum() == userAnswer.getQuiz().getAnswer()) return true;
         return false;
     }
+
+    /**
+     * 퀴즈 좋아요
+     * @param quizId : 조회중인 퀴즈 번호
+     * @param userEmail : 유저 이메일
+     * @return
+     */
+    @Transactional
+    @Override
+    public int likeOrCancelQuiz(Long quizId, String userEmail) {
+        Quiz quiz = quizRepository.findById(quizId)
+                .orElse(null);
+        User user = userRepository.findByEmail(userEmail)
+                .orElse(null);
+
+        QuizLike quizLike = quizLikeRepository.findByUserAndQuiz(user, quiz)
+                .orElse(null);
+
+        if (quizLike == null) {
+            quizLike = QuizLike.createQuizLike(user, quiz);
+            quizLikeRepository.save(quizLike);
+            return 1;
+        }
+        quizLike.changeValid();
+        return quizLike.getValid();
+    }
 }
