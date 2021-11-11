@@ -33,6 +33,8 @@ public class Reply extends BaseTimeEntity {
     @JoinColumn(name = "comment")
     private Comment comment;
 
+    private String writer;
+
     private String content;
 
 }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import team.latte.LatteIsAHorse.dto.AllCommentRes;
 import team.latte.LatteIsAHorse.dto.CreateCommentReq;
 import team.latte.LatteIsAHorse.model.comment.Comment;
 import team.latte.LatteIsAHorse.model.quiz.Quiz;
@@ -12,6 +13,8 @@ import team.latte.LatteIsAHorse.model.user.UserState;
 import team.latte.LatteIsAHorse.repository.CommentRepository;
 import team.latte.LatteIsAHorse.repository.QuizRepository;
 import team.latte.LatteIsAHorse.repository.UserRepository;
+
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -46,5 +49,18 @@ public class CommentServiceImpl implements CommentService {
         Comment savedComment = commentRepository.save(comment);
 
         return savedComment;
+    }
+
+    /**
+     * 댓글을 모두 조회한다.
+     * @return
+     */
+    @Override
+    public List<AllCommentRes> allCommentList(Long quizId) {
+
+        Quiz quiz = quizRepository.findById(quizId)
+                .orElse(null);
+        List<Comment> comments = commentRepository.findByQuiz(quiz);
+        return AllCommentRes.listOf(comments);
     }
 }
