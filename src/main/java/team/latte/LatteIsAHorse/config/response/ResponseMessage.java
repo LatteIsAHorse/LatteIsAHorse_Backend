@@ -51,7 +51,10 @@ public enum ResponseMessage {
 
     BOOKMARK_QUIZ_SUCCESS("퀴즈를 북마크에 추가했습니다."),
     BOOKMARK_QUIZ_CANCEL_SUCCESS("퀴즈를 북마크에서 해제했습니다."),
-    BOOKMARK_QUIZ_OR_CANCEL_FAIL("퀴즈 북마크 또는 해제 요청이 실패했습니다.");
+    BOOKMARK_QUIZ_OR_CANCEL_FAIL("퀴즈 북마크 또는 해제 요청이 실패했습니다."),
+
+    BOOKMARK_LIST_SUCCESS("북마크 조회가 성공했습니다."),
+    BOOKMARK_LIST_FAIL("북마크 조회에 실패했습니다.");
 
     private final String message;
 }
