@@ -26,4 +26,6 @@ public interface QuizService {
     UserAnswer chooseUserAnswer(Long quizId, String userEmail, ChooseAnswerReq req);
 
     boolean isCorrectUserAnswer(UserAnswer userAnswer);
+
+    int likeOrCancelQuiz(Long quizId, String userEmail);
 }

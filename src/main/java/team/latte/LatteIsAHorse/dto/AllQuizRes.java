@@ -39,7 +39,7 @@ public class AllQuizRes {
                 .title(quiz.getTitle())
                 .writer(quiz.getWriter())
                 .views(quiz.getViews())
-                .quizLikesCnt(Long.valueOf(quiz.getQuizLikes().size()))
+                .quizLikesCnt(Long.valueOf(quiz.getQuizLikes().stream().filter(quizLike -> quizLike.getValid() == 1).count()))
                 .commentsCnt(Long.valueOf(quiz.getComments().size()))
                 .imageUrl(quiz.getImages().size() > 0 ? quiz.getImages().get(0).getUrl() : null)
                 .isScrap(quiz.getScraps().size() > 0 ? true : false)

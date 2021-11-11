@@ -1,17 +1,13 @@
 package team.latte.LatteIsAHorse.model.quiz;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import team.latte.LatteIsAHorse.model.user.User;
 
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
 @Entity
 public class QuizLike {
 
@@ -27,6 +23,8 @@ public class QuizLike {
     @JoinColumn(name = "quiz")
     private Quiz quiz;
 
+    private int valid;
+
     public void setUser(User user) {
         this.user = user;
         user.getQuizLikes().add(this);
@@ -35,6 +33,19 @@ public class QuizLike {
     public void setQuiz(Quiz quiz) {
         this.quiz = quiz;
         quiz.getQuizLikes().add(this);
+    }
+
+    public void changeValid() {
+        if (this.valid == 1) this.valid = 0;
+        else if (this.valid == 0) this.valid = 1;
+    }
+
+    public static QuizLike createQuizLike(User user, Quiz quiz) {
+        QuizLike quizLike = new QuizLike();
+        quizLike.setUser(user);
+        quizLike.setQuiz(quiz);
+        quizLike.valid = 1;
+        return quizLike;
     }
 }
 
