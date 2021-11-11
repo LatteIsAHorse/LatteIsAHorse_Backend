@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import team.latte.LatteIsAHorse.dto.AllBookmarkRes;
 import team.latte.LatteIsAHorse.model.bookmark.Bookmark;
 import team.latte.LatteIsAHorse.model.quiz.Quiz;
 import team.latte.LatteIsAHorse.model.user.User;
@@ -11,6 +12,8 @@ import team.latte.LatteIsAHorse.model.user.UserState;
 import team.latte.LatteIsAHorse.repository.BookmarkRepository;
 import team.latte.LatteIsAHorse.repository.QuizRepository;
 import team.latte.LatteIsAHorse.repository.UserRepository;
+
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -48,5 +51,20 @@ public class BookmarkServiceImpl implements BookmarkService{
 
         bookmark.changeValid();
         return bookmark.getValid();
+    }
+
+    /**
+     * 퀴즈 북마크 조회
+     * @param userEmail 유저 이메일
+     * @return
+     */
+    @Override
+    public List<AllBookmarkRes> allBookmarkList(String userEmail) {
+        User user = userRepository.findByEmail(userEmail)
+                .orElse(null);
+
+        List<Bookmark> bookmarks = bookmarkRepository.findByUserAndValid(user);
+
+        return AllBookmarkRes.listOf(bookmarks);
     }
 }
