@@ -4,7 +4,7 @@ import team.latte.LatteIsAHorse.common.domain.EnumCommonType;
 
 public enum RoleType implements EnumCommonType {
 
-    ROEL_UNKNOWN(1,"알수없음"),
+    ROLE_UNKNOWN(1,"알수없음"),
     ROLE_GUEST(2,"대학 인증 대기중"),
     ROLE_USER(3, "유저"),
     ROLE_ADMIN(4,"관리자");

@@ -62,7 +62,7 @@ public class QuizController {
 
     /**
      * 퀴즈 세부 조회
-     * @param quizId 조회할 퀴즈 ID
+     * @param quizId : 조회할 퀴즈 ID
      * @param customUserDetails : 인증된 유저 객체
      * @return
      */
@@ -76,8 +76,8 @@ public class QuizController {
     }
 
     /**
-     * 퀴즈 풀기 API
-     * @param quizId 조회중인 퀴즈 ID
+     * 퀴즈 풀기
+     * @param quizId : 조회중인 퀴즈 ID
      * @param customUserDetails : 인증된 유저 객체
      * @param req : 퀴즈 풀기 DTO
      * @return
