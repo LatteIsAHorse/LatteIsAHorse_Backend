@@ -217,7 +217,7 @@ public class QuizServiceImpl implements QuizService {
 
     /**
      * 퀴즈 좋아요
-     * @param quizId : 조회중인 퀴즈 번호
+     * @param quizId : 좋아요하는 퀴즈 번호
      * @param userEmail : 유저 이메일
      * @return
      */

@@ -29,6 +29,8 @@ public class AllCommentRes {
 
     private String writeDate;
 
+    private Long commentLikesCnt;
+
     private List<ReplyDto> replies;
 
     @JsonIgnore
@@ -41,6 +43,7 @@ public class AllCommentRes {
                 .writer(comment.getWriter())
                 .content(comment.getContent())
                 .writeDate(decideDateFormat(comment.getCreatedAt()))
+                .commentLikesCnt(Long.valueOf(comment.getCommentLikes().stream().filter(commentLike -> commentLike.getValid() == 1).count()))
                 .replies(comment.getReplies().stream().map(reply -> new ReplyDto(reply)).collect(Collectors.toList()))
                 .build();
     }
