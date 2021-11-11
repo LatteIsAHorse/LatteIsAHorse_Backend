@@ -8,10 +8,9 @@ import team.latte.LatteIsAHorse.common.util.firebase.FirebaseFileService;
 import team.latte.LatteIsAHorse.config.response.ApiResponse;
 import team.latte.LatteIsAHorse.config.response.ResponseMessage;
 import team.latte.LatteIsAHorse.config.security.authentication.CustomUserDetails;
-import team.latte.LatteIsAHorse.dto.AllQuizRes;
-import team.latte.LatteIsAHorse.dto.CreateQuizReq;
-import team.latte.LatteIsAHorse.dto.QuizRes;
+import team.latte.LatteIsAHorse.dto.*;
 import team.latte.LatteIsAHorse.model.quiz.Quiz;
+import team.latte.LatteIsAHorse.model.quiz.UserAnswer;
 import team.latte.LatteIsAHorse.service.QuizService;
 import team.latte.LatteIsAHorse.service.UserService;
 
@@ -46,7 +45,7 @@ public class QuizController {
                 return ApiResponse.of(HttpStatus.FORBIDDEN, ResponseMessage.QUIZ_CREATED_FAIL);
             }
         }
-        quizService.issueLatteStack(quiz, customUserDetails.getUsername());
+        quizService.issueLatteStack(quiz.getQuizId(), customUserDetails.getUsername());
         return ApiResponse.of(HttpStatus.CREATED, ResponseMessage.QUIZ_CREATED_SUCCESS);
     }
 
@@ -74,5 +73,26 @@ public class QuizController {
             return ApiResponse.of(HttpStatus.FORBIDDEN, ResponseMessage.QUIZ_DETAIL_FAIL);
 
         return ApiResponse.of(quizRes, HttpStatus.OK, ResponseMessage.QUIZ_DETAIL_SUCCESS);
+    }
+
+    /**
+     * 퀴즈 풀기 API
+     * @param quizId 조회중인 퀴즈 ID
+     * @param customUserDetails : 인증된 유저 객체
+     * @param req : 퀴즈 풀기 DTO
+     * @return
+     */
+    @PostMapping("/quiz/{quizId}")
+    public ApiResponse<Object> chooseAnswer(@PathVariable Long quizId, @AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                            @RequestBody ChooseAnswerReq req) {
+        UserAnswer userAnswer = quizService.chooseUserAnswer(quizId, customUserDetails.getUsername(), req);
+        if (userAnswer == null)
+            return ApiResponse.of(HttpStatus.FORBIDDEN, ResponseMessage.QUIZ_CHOOSE_ANSWER_FAIL);
+
+        boolean isCorrect = quizService.isCorrectUserAnswer(userAnswer);
+        if (isCorrect)
+            quizService.issueLatteStack(quizId, customUserDetails.getUsername());
+
+        return ApiResponse.of(new ChooseAnswerRes(isCorrect), HttpStatus.OK, ResponseMessage.QUIZ_CHOOSE_ANSWER_SUCCESS);
     }
 }

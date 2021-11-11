@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.latte.LatteIsAHorse.dto.AllQuizRes;
+import team.latte.LatteIsAHorse.dto.ChooseAnswerReq;
 import team.latte.LatteIsAHorse.dto.CreateQuizReq;
 import team.latte.LatteIsAHorse.dto.QuizRes;
 import team.latte.LatteIsAHorse.model.post.Image;
@@ -122,13 +123,15 @@ public class QuizServiceImpl implements QuizService {
 
     /**
      * 유저에게 라떼 스택을 발급해줍니다.
-     * @param quiz 퀴즈
+     * @param quizId 퀴즈 번호
      * @param userEmail 유저 이메일
      * @return
      */
     @Transactional
     @Override
-    public Long issueLatteStack(Quiz quiz, String userEmail) {
+    public Long issueLatteStack(Long quizId, String userEmail) {
+        Quiz quiz = quizRepository.findById(quizId)
+                .orElse(null);
         User user = userRepository.findByEmail(userEmail)
                 .orElse(null);
 
@@ -175,5 +178,28 @@ public class QuizServiceImpl implements QuizService {
         UserAnswer userAnswer = userAnswerRepository.findByUserAndQuiz(user, quiz).orElse(null);
 
         return QuizRes.of(quiz, quizLike, reportSuspicion, userAnswer);
+    }
+
+    /**
+     * 퀴즈 풀기 : 답을 선택한다.
+     * @param quizId
+     * @param userEmail
+     * @param req
+     */
+    @Transactional
+    @Override
+    public UserAnswer chooseUserAnswer(Long quizId, String userEmail, ChooseAnswerReq req) {
+        Quiz quiz = quizRepository.findById(quizId)
+                .orElse(null);
+        User user = userRepository.findByEmail(userEmail)
+                .orElse(null);
+        UserAnswer userAnswer = UserAnswer.createUserAnswer(quiz, user, req.getUserAnswer());
+        UserAnswer savedUserAnswer = userAnswerRepository.save(userAnswer);
+        return savedUserAnswer;
+    }
+
+    public boolean isCorrectUserAnswer(UserAnswer userAnswer) {
+        if (userAnswer.getChoiceNum() == userAnswer.getQuiz().getAnswer()) return true;
+        return false;
     }
 }
