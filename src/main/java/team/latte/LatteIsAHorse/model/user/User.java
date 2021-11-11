@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import team.latte.LatteIsAHorse.common.domain.UserGradeConverter;
 import team.latte.LatteIsAHorse.common.domain.UserStateConverter;
+import team.latte.LatteIsAHorse.model.bookmark.Bookmark;
 import team.latte.LatteIsAHorse.model.comment.Comment;
 import team.latte.LatteIsAHorse.model.comment.CommentLike;
 import team.latte.LatteIsAHorse.model.comment.Reply;
@@ -13,7 +14,6 @@ import team.latte.LatteIsAHorse.model.comment.ReplyLike;
 import team.latte.LatteIsAHorse.model.coupon.CouponList;
 import team.latte.LatteIsAHorse.model.post.Post;
 import team.latte.LatteIsAHorse.model.post.PostLike;
-import team.latte.LatteIsAHorse.model.post.Scrap;
 import team.latte.LatteIsAHorse.model.quiz.Quiz;
 import team.latte.LatteIsAHorse.model.quiz.QuizLike;
 import team.latte.LatteIsAHorse.model.quiz.ReportSuspicion;
@@ -39,7 +39,7 @@ public class User {
     private List<CouponList> couponList = new ArrayList<>(); // 쿠폰 발급 기록은 남아있어야함.
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Scrap> scraps = new ArrayList<>();
+    private List<Bookmark> bookmarks = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<LatteStackInfo> latteStackInfos = new ArrayList<>();
