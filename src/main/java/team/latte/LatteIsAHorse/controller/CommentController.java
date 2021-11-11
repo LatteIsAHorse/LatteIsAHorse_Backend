@@ -9,7 +9,9 @@ import team.latte.LatteIsAHorse.config.response.ResponseMessage;
 import team.latte.LatteIsAHorse.config.security.authentication.CustomUserDetails;
 import team.latte.LatteIsAHorse.dto.AllCommentRes;
 import team.latte.LatteIsAHorse.dto.CreateCommentReq;
+import team.latte.LatteIsAHorse.dto.CreateReplyReq;
 import team.latte.LatteIsAHorse.model.comment.Comment;
+import team.latte.LatteIsAHorse.model.comment.Reply;
 import team.latte.LatteIsAHorse.service.CommentService;
 
 import javax.validation.Valid;
@@ -50,5 +52,17 @@ public class CommentController {
         List<AllCommentRes> allCommentRes = commentService.allCommentList(quizId);
 
         return ApiResponse.of(allCommentRes, HttpStatus.OK, ResponseMessage.COMMENT_LIST_SUCCESS);
+    }
+
+    @PostMapping("/{quizId}/comment/{commentId}")
+    public ApiResponse<Object> createReply(@PathVariable Long quizId, @PathVariable Long commentId,
+                                           @Valid @RequestBody CreateReplyReq req,
+                                             @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        Reply reply = commentService.createReply(commentId, customUserDetails.getUsername(), req);
+
+        if (reply == null)
+            return ApiResponse.of(HttpStatus.FORBIDDEN, ResponseMessage.REPLY_CREATED_FAIL);
+
+        return ApiResponse.of(HttpStatus.OK, ResponseMessage.REPLY_CREATED_SUCCESS);
     }
 }

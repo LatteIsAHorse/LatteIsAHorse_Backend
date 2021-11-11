@@ -1,10 +1,9 @@
 package team.latte.LatteIsAHorse.model.comment;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import team.latte.LatteIsAHorse.common.domain.BaseTimeEntity;
+import team.latte.LatteIsAHorse.model.post.Post;
+import team.latte.LatteIsAHorse.model.quiz.Quiz;
 import team.latte.LatteIsAHorse.model.user.User;
 
 import javax.persistence.*;
@@ -12,9 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
 @Entity
 public class Reply extends BaseTimeEntity {
 
@@ -36,5 +34,24 @@ public class Reply extends BaseTimeEntity {
     private String writer;
 
     private String content;
+
+    public void setUser(User user) {
+        this.user = user;
+        user.getReplies().add(this);
+    }
+
+    public void setComment(Comment comment) {
+        this.comment = comment;
+        comment.getReplies().add(this);
+    }
+
+    public static Reply createReply(User user, Comment comment, String content) {
+        Reply reply = new Reply();
+        reply.setUser(user);
+        reply.setComment(comment);
+        reply.writer = user.getNickname();
+        reply.content = content;
+        return reply;
+    }
 
 }

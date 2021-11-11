@@ -6,12 +6,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.latte.LatteIsAHorse.dto.AllCommentRes;
 import team.latte.LatteIsAHorse.dto.CreateCommentReq;
+import team.latte.LatteIsAHorse.dto.CreateReplyReq;
 import team.latte.LatteIsAHorse.model.comment.Comment;
+import team.latte.LatteIsAHorse.model.comment.Reply;
 import team.latte.LatteIsAHorse.model.quiz.Quiz;
 import team.latte.LatteIsAHorse.model.user.User;
 import team.latte.LatteIsAHorse.model.user.UserState;
 import team.latte.LatteIsAHorse.repository.CommentRepository;
 import team.latte.LatteIsAHorse.repository.QuizRepository;
+import team.latte.LatteIsAHorse.repository.ReplyRepository;
 import team.latte.LatteIsAHorse.repository.UserRepository;
 
 import java.util.List;
@@ -25,6 +28,7 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
     private final QuizRepository quizRepository;
+    private final ReplyRepository replyRepository;
 
     /**
      * 댓글을 생성한다.
@@ -40,7 +44,7 @@ public class CommentServiceImpl implements CommentService {
         User user = userRepository.findByEmailAndState(userEmail, UserState.VALID)
                 .orElse(null);
 
-        if (user == null) return null;
+        if (user == null) return null; // SUSPEND인 유저 예외처리
 
         Quiz quiz = quizRepository.findById(quizId)
                 .orElse(null);
@@ -62,5 +66,23 @@ public class CommentServiceImpl implements CommentService {
                 .orElse(null);
         List<Comment> comments = commentRepository.findByQuiz(quiz);
         return AllCommentRes.listOf(comments);
+    }
+
+    @Transactional
+    @Override
+    public Reply createReply(Long commentId, String userEmail, CreateReplyReq req) {
+
+        User user = userRepository.findByEmailAndState(userEmail, UserState.VALID)
+                .orElse(null);
+
+        if (user == null) return null; // SUSPEND인 유저 예외처리
+
+        Comment comment = commentRepository.findById(commentId)
+                .orElse(null);
+
+        Reply reply = Reply.createReply(user, comment, req.getContent());
+        Reply savedReply = replyRepository.save(reply);
+
+        return savedReply;
     }
 }
