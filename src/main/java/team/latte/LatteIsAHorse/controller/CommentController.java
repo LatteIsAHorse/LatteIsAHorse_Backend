@@ -7,11 +7,13 @@ import org.springframework.web.bind.annotation.*;
 import team.latte.LatteIsAHorse.config.response.ApiResponse;
 import team.latte.LatteIsAHorse.config.response.ResponseMessage;
 import team.latte.LatteIsAHorse.config.security.authentication.CustomUserDetails;
+import team.latte.LatteIsAHorse.dto.AllCommentRes;
 import team.latte.LatteIsAHorse.dto.CreateCommentReq;
 import team.latte.LatteIsAHorse.model.comment.Comment;
 import team.latte.LatteIsAHorse.service.CommentService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,5 +38,17 @@ public class CommentController {
             return ApiResponse.of(HttpStatus.FORBIDDEN, ResponseMessage.COMMENT_CREATED_FAIL);
 
         return ApiResponse.of(HttpStatus.OK, ResponseMessage.COMMENT_CREATED_SUCCESS);
+    }
+
+    /**
+     * 댓글 조회
+     * @param quizId : 조회중인 퀴즈 ID
+     * @return
+     */
+    @GetMapping("/{quizId}/comment")
+    public ApiResponse<Object> allCommentList(@PathVariable Long quizId) {
+        List<AllCommentRes> allCommentRes = commentService.allCommentList(quizId);
+
+        return ApiResponse.of(allCommentRes, HttpStatus.OK, ResponseMessage.COMMENT_LIST_SUCCESS);
     }
 }

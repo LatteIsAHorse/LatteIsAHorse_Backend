@@ -9,6 +9,9 @@ import team.latte.LatteIsAHorse.model.comment.Comment;
 import team.latte.LatteIsAHorse.model.quiz.Answer;
 import team.latte.LatteIsAHorse.model.quiz.Quiz;
 
+import java.util.List;
+
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
+    List<Comment> findByQuiz(Quiz quiz);
 }
