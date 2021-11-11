@@ -23,7 +23,7 @@ public class UserService {
 
     @Transactional
     public User join(SignUpReq req) {
-        if(userRepository.findByEmailAndRoleOnlyNotLeave(req.getEmail(), RoleType.ROEL_UNKNOWN).isPresent())
+        if(userRepository.findByEmailAndRoleOnlyNotLeave(req.getEmail(), RoleType.ROLE_UNKNOWN).isPresent())
             return null;
 
         User user = User.builder()
@@ -41,7 +41,7 @@ public class UserService {
 
     @Transactional
     public User login(SignInReq req) {
-        User user = userRepository.findByEmailAndRoleOnlyNotLeave(req.getEmail(), RoleType.ROEL_UNKNOWN)
+        User user = userRepository.findByEmailAndRoleOnlyNotLeave(req.getEmail(), RoleType.ROLE_UNKNOWN)
             .orElse(null);
         return user;
     }

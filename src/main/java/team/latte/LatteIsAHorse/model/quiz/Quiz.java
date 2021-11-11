@@ -17,7 +17,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Slf4j
 public class Quiz extends BaseTimeEntity {
 
     @Id

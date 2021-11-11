@@ -17,3 +17,5 @@ INSERT INTO TAG VALUES (2, '땅 면적');
 INSERT INTO QUIZ_TAG VALUES (1, 1, 1);
 INSERT INTO QUIZ_TAG VALUES (2, 1, 2);
 
+INSERT INTO COMMENT VALUES (1, '2021-11-11 13:56:12.185','2021-11-11 13:56:12.185','연세대에 비건 식당이 있나 궁금해서 함 찾아봤는데 진짜 있네ㄷㄷ', '오늘저녁은치킨이닭', null, 2, 1);
+
