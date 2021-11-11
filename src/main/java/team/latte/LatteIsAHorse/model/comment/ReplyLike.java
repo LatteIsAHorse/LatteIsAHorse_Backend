@@ -1,16 +1,13 @@
 package team.latte.LatteIsAHorse.model.comment;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import team.latte.LatteIsAHorse.common.domain.BaseTimeEntity;
 import team.latte.LatteIsAHorse.model.user.User;
 
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Entity
@@ -28,6 +25,8 @@ public class ReplyLike extends BaseTimeEntity {
     @JoinColumn(name = "reply")
     private Reply reply;
 
+    private int valid;
+
     public void setUser(User user) {
         this.user = user;
         user.getReplyLikes().add(this);
@@ -36,5 +35,18 @@ public class ReplyLike extends BaseTimeEntity {
     public void setReply(Reply reply) {
         this.reply = reply;
         reply.getReplyLikes().add(this);
+    }
+
+    public void changeValid() {
+        if (this.valid == 1) this.valid = 0;
+        else if (this.valid == 0) this.valid = 1;
+    }
+
+    public static ReplyLike createReplyLike(User user, Reply reply) {
+        ReplyLike replyLike = new ReplyLike();
+        replyLike.setUser(user);
+        replyLike.setReply(reply);
+        replyLike.valid = 1;
+        return replyLike;
     }
 }

@@ -72,11 +72,14 @@ public class AllCommentRes {
 
         private String writeDate;
 
+        private Long replyLikesCnt;
+
         public ReplyDto(Reply reply) {
             this.replyId = reply.getReplyId();
             this.content = reply.getContent();
             this.writer = reply.getWriter();
             this.writeDate = decideDateFormat(reply.getCreatedAt());
+            this.replyLikesCnt = reply.getReplyLikes().stream().filter(replyLike -> replyLike.getValid() == 1).count();
         }
     }
 }

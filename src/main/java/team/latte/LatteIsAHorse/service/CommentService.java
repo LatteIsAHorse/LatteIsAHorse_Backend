@@ -16,5 +16,7 @@ public interface CommentService {
 
     Reply createReply(Long commentId, String userEmail, CreateReplyReq req);
 
-    int likeOrCancelQuiz(Long commentId, String userEmail);
+    int likeOrCancelComment(Long commentId, String userEmail);
+
+    int likeOrCancelReply(Long replyId, String userEmail);
 }

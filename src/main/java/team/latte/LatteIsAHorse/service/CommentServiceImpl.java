@@ -10,6 +10,7 @@ import team.latte.LatteIsAHorse.dto.CreateReplyReq;
 import team.latte.LatteIsAHorse.model.comment.Comment;
 import team.latte.LatteIsAHorse.model.comment.CommentLike;
 import team.latte.LatteIsAHorse.model.comment.Reply;
+import team.latte.LatteIsAHorse.model.comment.ReplyLike;
 import team.latte.LatteIsAHorse.model.quiz.Quiz;
 import team.latte.LatteIsAHorse.model.quiz.QuizLike;
 import team.latte.LatteIsAHorse.model.user.User;
@@ -29,6 +30,8 @@ public class CommentServiceImpl implements CommentService {
     private final QuizRepository quizRepository;
     private final ReplyRepository replyRepository;
     private final CommentLikeRepository commentLikeRepository;
+    private final ReplyLikeRepository replyLikeRepository;
+
 
     /**
      * 댓글을 생성한다.
@@ -103,7 +106,7 @@ public class CommentServiceImpl implements CommentService {
      */
     @Transactional
     @Override
-    public int likeOrCancelQuiz(Long commentId, String userEmail) {
+    public int likeOrCancelComment(Long commentId, String userEmail) {
 
         Comment comment = commentRepository.findById(commentId)
                 .orElse(null);
@@ -120,5 +123,31 @@ public class CommentServiceImpl implements CommentService {
         }
         commentLike.changeValid();
         return commentLike.getValid();
+    }
+
+    /**
+     * 답글 좋아요
+     * @param replyId
+     * @param userEmail
+     * @return
+     */
+    @Transactional
+    @Override
+    public int likeOrCancelReply(Long replyId, String userEmail) {
+        Reply reply = replyRepository.findById(replyId)
+                .orElse(null);
+        User user = userRepository.findByEmail(userEmail)
+                .orElse(null);
+
+        ReplyLike replyLike = replyLikeRepository.findByUserAndReply(user, reply)
+                .orElse(null);
+
+        if (replyLike == null) {
+            replyLike = ReplyLike.createReplyLike(user, reply);
+            replyLikeRepository.save(replyLike);
+            return 1;
+        }
+        replyLike.changeValid();
+        return replyLike.getValid();
     }
 }
