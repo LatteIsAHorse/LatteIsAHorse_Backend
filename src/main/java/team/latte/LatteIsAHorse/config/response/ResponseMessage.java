@@ -43,7 +43,11 @@ public enum ResponseMessage {
 
     COMMENT_LIKE_SUCCESS("좋아요가 성공했습니다."),
     COMMENT_LIKE_CANCEL_SUCCESS("좋아요가 취소되었습니다."),
-    COMMENT_LIKE_OR_CANCEL_FAIL("좋아요 또는 취소 요청이 실패했습니다.");
+    COMMENT_LIKE_OR_CANCEL_FAIL("좋아요 또는 취소 요청이 실패했습니다."),
+
+    REPLY_LIKE_SUCCESS("좋아요가 성공했습니다."),
+    REPLY_LIKE_CANCEL_SUCCESS("좋아요가 취소되었습니다."),
+    REPLY_LIKE_OR_CANCEL_FAIL("좋아요 또는 취소 요청이 실패했습니다.");
 
     private final String message;
 }

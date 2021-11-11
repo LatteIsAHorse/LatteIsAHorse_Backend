@@ -81,9 +81,25 @@ public class CommentController {
      * @return
      */
     @PostMapping("/{quizId}/comment/{commentId}/likers")
-    public ApiResponse<Object> likeOrCancelQuiz(@PathVariable Long quizId, @PathVariable Long commentId,
+    public ApiResponse<Object> likeOrCancelComment(@PathVariable Long quizId, @PathVariable Long commentId,
                                                 @AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        return ApiResponse.of(HttpStatus.OK, commentService.likeOrCancelQuiz(commentId, customUserDetails.getUsername()) == 1 ?
+        return ApiResponse.of(HttpStatus.OK, commentService.likeOrCancelComment(commentId, customUserDetails.getUsername()) == 1 ?
                 ResponseMessage.COMMENT_LIKE_SUCCESS : ResponseMessage.COMMENT_LIKE_CANCEL_SUCCESS);
     }
+
+    /**
+     * 답글 좋아요
+     * @param quizId : 조회중인 퀴즈 ID
+     * @param customUserDetails : 인증된 유저 객체
+     * @return
+     */
+    @PostMapping("/{quizId}/comment/{commentId}/reply/{replyId}/likers")
+    public ApiResponse<Object> likeOrCancelReply(@PathVariable Long quizId, @PathVariable Long commentId,
+                                                @PathVariable Long replyId,
+                                                @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        return ApiResponse.of(HttpStatus.OK, commentService.likeOrCancelReply(replyId, customUserDetails.getUsername()) == 1 ?
+                ResponseMessage.REPLY_LIKE_SUCCESS : ResponseMessage.REPLY_LIKE_CANCEL_SUCCESS);
+    }
+
+
 }
