@@ -54,6 +54,14 @@ public class CommentController {
         return ApiResponse.of(allCommentRes, HttpStatus.OK, ResponseMessage.COMMENT_LIST_SUCCESS);
     }
 
+    /**
+     * 답글 작성
+     * @param quizId : 조회중인 퀴즈 ID
+     * @param commentId : 답글을 달 원본 댓글 ID
+     * @param req : 답글 작성 DTO
+     * @param customUserDetails : 인증된 유저 객체
+     * @return
+     */
     @PostMapping("/{quizId}/comment/{commentId}")
     public ApiResponse<Object> createReply(@PathVariable Long quizId, @PathVariable Long commentId,
                                            @Valid @RequestBody CreateReplyReq req,
@@ -64,5 +72,18 @@ public class CommentController {
             return ApiResponse.of(HttpStatus.FORBIDDEN, ResponseMessage.REPLY_CREATED_FAIL);
 
         return ApiResponse.of(HttpStatus.OK, ResponseMessage.REPLY_CREATED_SUCCESS);
+    }
+
+    /**
+     * 댓글 좋아요
+     * @param quizId : 조회중인 퀴즈 ID
+     * @param customUserDetails : 인증된 유저 객체
+     * @return
+     */
+    @PostMapping("/{quizId}/comment/{commentId}/likers")
+    public ApiResponse<Object> likeOrCancelQuiz(@PathVariable Long quizId, @PathVariable Long commentId,
+                                                @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        return ApiResponse.of(HttpStatus.OK, commentService.likeOrCancelQuiz(commentId, customUserDetails.getUsername()) == 1 ?
+                ResponseMessage.COMMENT_LIKE_SUCCESS : ResponseMessage.COMMENT_LIKE_CANCEL_SUCCESS);
     }
 }

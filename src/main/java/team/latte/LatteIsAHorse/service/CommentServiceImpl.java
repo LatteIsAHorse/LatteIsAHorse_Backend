@@ -8,14 +8,13 @@ import team.latte.LatteIsAHorse.dto.AllCommentRes;
 import team.latte.LatteIsAHorse.dto.CreateCommentReq;
 import team.latte.LatteIsAHorse.dto.CreateReplyReq;
 import team.latte.LatteIsAHorse.model.comment.Comment;
+import team.latte.LatteIsAHorse.model.comment.CommentLike;
 import team.latte.LatteIsAHorse.model.comment.Reply;
 import team.latte.LatteIsAHorse.model.quiz.Quiz;
+import team.latte.LatteIsAHorse.model.quiz.QuizLike;
 import team.latte.LatteIsAHorse.model.user.User;
 import team.latte.LatteIsAHorse.model.user.UserState;
-import team.latte.LatteIsAHorse.repository.CommentRepository;
-import team.latte.LatteIsAHorse.repository.QuizRepository;
-import team.latte.LatteIsAHorse.repository.ReplyRepository;
-import team.latte.LatteIsAHorse.repository.UserRepository;
+import team.latte.LatteIsAHorse.repository.*;
 
 import java.util.List;
 
@@ -29,6 +28,7 @@ public class CommentServiceImpl implements CommentService {
     private final UserRepository userRepository;
     private final QuizRepository quizRepository;
     private final ReplyRepository replyRepository;
+    private final CommentLikeRepository commentLikeRepository;
 
     /**
      * 댓글을 생성한다.
@@ -57,6 +57,7 @@ public class CommentServiceImpl implements CommentService {
 
     /**
      * 댓글을 모두 조회한다.
+     * @param quizId 조회중인 퀴즈 ID
      * @return
      */
     @Override
@@ -65,9 +66,17 @@ public class CommentServiceImpl implements CommentService {
         Quiz quiz = quizRepository.findById(quizId)
                 .orElse(null);
         List<Comment> comments = commentRepository.findByQuiz(quiz);
+
         return AllCommentRes.listOf(comments);
     }
 
+    /**
+     * 답글을 생성한다.
+     * @param commentId 답글을 달 원본 댓글의 ID
+     * @param userEmail 답글을 달 유저의 이메일
+     * @param req 답글 작성 DTO
+     * @return
+     */
     @Transactional
     @Override
     public Reply createReply(Long commentId, String userEmail, CreateReplyReq req) {
@@ -84,5 +93,32 @@ public class CommentServiceImpl implements CommentService {
         Reply savedReply = replyRepository.save(reply);
 
         return savedReply;
+    }
+
+    /**
+     * 댓글 좋아요
+     * @param commentId : 좋아요 하는 댓글 번호
+     * @param userEmail : 유저 이메일
+     * @return
+     */
+    @Transactional
+    @Override
+    public int likeOrCancelQuiz(Long commentId, String userEmail) {
+
+        Comment comment = commentRepository.findById(commentId)
+                .orElse(null);
+        User user = userRepository.findByEmail(userEmail)
+                .orElse(null);
+
+        CommentLike commentLike = commentLikeRepository.findByUserAndComment(user, comment)
+                .orElse(null);
+
+        if (commentLike == null) {
+            commentLike = CommentLike.createCommentLike(user, comment);
+            commentLikeRepository.save(commentLike);
+            return 1;
+        }
+        commentLike.changeValid();
+        return commentLike.getValid();
     }
 }
