@@ -39,4 +39,12 @@ public class UserAnswer extends BaseTimeEntity {
         this.quiz = quiz;
         quiz.getUserAnswers().add(this);
     }
+
+    public static UserAnswer createUserAnswer(Quiz quiz, User user, int choiceNum) {
+        UserAnswer userAnswer = new UserAnswer();
+        userAnswer.setUser(user);
+        userAnswer.setQuiz(quiz);
+        userAnswer.choiceNum = choiceNum;
+        return userAnswer;
+    }
 }
