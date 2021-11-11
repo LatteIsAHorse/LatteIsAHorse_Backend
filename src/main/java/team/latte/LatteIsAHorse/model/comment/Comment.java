@@ -33,7 +33,7 @@ public class Comment extends BaseTimeEntity {
     private Post post;
 
     @OneToMany(mappedBy = "comment")
-    private List<Reply> reply;
+    private List<Reply> replies = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "quiz")

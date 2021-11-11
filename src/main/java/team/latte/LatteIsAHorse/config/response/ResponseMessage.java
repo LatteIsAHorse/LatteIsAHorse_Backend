@@ -36,7 +36,10 @@ public enum ResponseMessage {
 
     QUIZ_LIKE_SUCCESS("좋아요가 성공했습니다."),
     QUIZ_LIKE_CANCEL_SUCCESS("좋아요가 취소되었습니다."),
-    QUIZ_LIKE_OR_CANCEL_FAIL("좋아요 또는 취소 요청이 실패했습니다.");
+    QUIZ_LIKE_OR_CANCEL_FAIL("좋아요 또는 취소 요청이 실패했습니다."),
+
+    REPLY_CREATED_SUCCESS("답글이 성공적으로 등록되었습니다."),
+    REPLY_CREATED_FAIL("답글 등록에 실패했습니다.");
 
     private final String message;
 }

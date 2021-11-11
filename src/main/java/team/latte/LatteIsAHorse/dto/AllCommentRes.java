@@ -41,7 +41,7 @@ public class AllCommentRes {
                 .writer(comment.getWriter())
                 .content(comment.getContent())
                 .writeDate(decideDateFormat(comment.getCreatedAt()))
-                .replies(comment.getReply().stream().map(reply -> new ReplyDto(reply)).collect(Collectors.toList()))
+                .replies(comment.getReplies().stream().map(reply -> new ReplyDto(reply)).collect(Collectors.toList()))
                 .build();
     }
 
