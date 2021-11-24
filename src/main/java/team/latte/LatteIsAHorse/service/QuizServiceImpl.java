@@ -12,6 +12,7 @@ import team.latte.LatteIsAHorse.model.post.Image;
 import team.latte.LatteIsAHorse.model.quiz.*;
 import team.latte.LatteIsAHorse.model.tag.Tag;
 import team.latte.LatteIsAHorse.model.user.LatteStackInfo;
+import team.latte.LatteIsAHorse.model.user.LatteStackInfoReason;
 import team.latte.LatteIsAHorse.model.user.User;
 import team.latte.LatteIsAHorse.model.user.UserState;
 import team.latte.LatteIsAHorse.repository.*;
@@ -136,13 +137,13 @@ public class QuizServiceImpl implements QuizService {
      */
     @Transactional
     @Override
-    public Long issueLatteStack(Long quizId, String userEmail) {
+    public Long issueLatteStack(Long quizId, String userEmail, LatteStackInfoReason reason) {
         Quiz quiz = quizRepository.findById(quizId)
                 .orElse(null);
         User user = userRepository.findByEmail(userEmail)
                 .orElse(null);
 
-        LatteStackInfo latteStackInfo = LatteStackInfo.createLatteStackInfo(quiz, user);
+        LatteStackInfo latteStackInfo = LatteStackInfo.createLatteStackInfo(quiz, user, reason);
         LatteStackInfo savedLatteStackInfo = latteStackInfoRepository.save(latteStackInfo);
         return savedLatteStackInfo.getLatteStackInfoId();
     }
