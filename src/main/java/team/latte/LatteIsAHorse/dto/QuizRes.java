@@ -27,11 +27,19 @@ public class QuizRes {
 
     private boolean quizLike;
 
+    private Long quizLikeCnt;
+
     private boolean reportSuspicion;
 
     private Long reportSuspicionCnt;
 
     private int choiceNum;
+
+    private String writer;
+
+    private int answer;
+
+    private Long view;
 
     public static QuizRes of(Quiz quiz, boolean quizLike, boolean reportSuspicion, UserAnswer userAnswer) {
 
@@ -41,9 +49,13 @@ public class QuizRes {
                 .title(quiz.getTitle())
                 .answers(quiz.getAnswers().stream().map(answer -> new AnswerDto(answer)).collect(Collectors.toList()))
                 .quizLike(quizLike)
+                .quizLikeCnt(quiz.getQuizLikes().stream().filter(ql -> ql.getValid() == 1).count())
                 .reportSuspicion(reportSuspicion)
                 .reportSuspicionCnt(Long.valueOf(quiz.getReportSuspicions().size()))
                 .choiceNum(userAnswer != null ? userAnswer.getChoiceNum() : -1)
+                .writer(quiz.getWriter())
+                .answer(quiz.getAnswer())
+                .view(quiz.getViews())
                 .build();
     }
 
