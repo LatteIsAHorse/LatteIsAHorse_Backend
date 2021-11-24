@@ -1,17 +1,38 @@
 package team.latte.LatteIsAHorse.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.transaction.annotation.Transactional;
-import team.latte.LatteIsAHorse.model.quiz.Quiz;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.stereotype.Repository;
 import team.latte.LatteIsAHorse.model.user.LatteStackInfo;
+import javax.persistence.EntityManager;
+import java.util.List;
 
-public interface LatteStackInfoRepository extends JpaRepository<LatteStackInfo, Long> {
+import static team.latte.LatteIsAHorse.model.user.QLatteStackInfo.latteStackInfo;
 
-    @Modifying
-    @Transactional
-    @Query("DELETE FROM Answer a WHERE a.quiz = :quiz")
-    void delteAllByQuiz(@Param("quiz") Quiz quiz);
+
+@Repository
+public class LatteStackInfoRepository {
+
+    private final EntityManager em;
+    private final JPAQueryFactory queryFactory;
+
+    public LatteStackInfoRepository(EntityManager em) {
+        this.em = em;
+        this.queryFactory = new JPAQueryFactory(em);
+    }
+
+    public List<LatteStackInfo> findByUserEmailAndYearAndMonth(String userEmail, int year, int month) {
+        return queryFactory
+                .selectFrom(latteStackInfo)
+                .where(
+                        latteStackInfo.user.email.eq(userEmail)
+                        .and(latteStackInfo.createdAt.year().eq(year))
+                        .and(latteStackInfo.createdAt.month().eq(month))
+                ).fetch();
+    }
+
+    public LatteStackInfo save(LatteStackInfo latteStackInfo) {
+        em.persist(latteStackInfo);
+        em.flush();
+        return latteStackInfo;
+    }
 }
