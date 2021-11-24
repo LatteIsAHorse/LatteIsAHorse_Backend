@@ -54,7 +54,10 @@ public enum ResponseMessage {
     BOOKMARK_QUIZ_OR_CANCEL_FAIL("퀴즈 북마크 또는 해제 요청이 실패했습니다."),
 
     BOOKMARK_LIST_SUCCESS("북마크 조회가 성공했습니다."),
-    BOOKMARK_LIST_FAIL("북마크 조회에 실패했습니다.");
+    BOOKMARK_LIST_FAIL("북마크 조회에 실패했습니다."),
+
+    LATTE_STACK_LIST_SUCCESS("라떼 포인트 조회가 성공했습니다."),
+    LATTE_STACK_LIST_FAIL("라떼 포인트 조회에 실패했습니다.");
 
     private final String message;
 }

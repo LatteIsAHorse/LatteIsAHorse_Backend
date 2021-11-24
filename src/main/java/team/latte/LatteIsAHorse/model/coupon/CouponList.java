@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import team.latte.LatteIsAHorse.model.user.LatteStackInfo;
 import team.latte.LatteIsAHorse.model.user.User;
 
 import javax.persistence.*;
@@ -14,7 +15,6 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@Builder
 @AllArgsConstructor
 @Entity
 public class CouponList {
@@ -31,6 +31,9 @@ public class CouponList {
     @JoinColumn(name = "coupon_id")
     private Coupon coupon;
 
+    @OneToOne(mappedBy = "couponList", fetch = FetchType.LAZY)
+    private LatteStackInfo latteStackInfo;
+
     @CreatedDate
     private LocalDateTime pubDate;
 
@@ -42,5 +45,16 @@ public class CouponList {
     public void setCoupon(Coupon coupon) {
         this.coupon = coupon;
         coupon.getCouponList().add(this);
+    }
+
+    public void setLatteStackInfo(LatteStackInfo latteStackInfo) {
+        this.latteStackInfo = latteStackInfo;
+    }
+
+    public static CouponList createCouponList(Coupon coupon, User user) {
+        CouponList couponList = new CouponList();
+        couponList.setUser(user);
+        couponList.setCoupon(coupon);
+        return couponList;
     }
 }

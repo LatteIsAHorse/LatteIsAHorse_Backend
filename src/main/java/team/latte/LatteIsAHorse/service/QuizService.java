@@ -6,6 +6,7 @@ import team.latte.LatteIsAHorse.dto.CreateQuizReq;
 import team.latte.LatteIsAHorse.dto.QuizRes;
 import team.latte.LatteIsAHorse.model.quiz.Quiz;
 import team.latte.LatteIsAHorse.model.quiz.UserAnswer;
+import team.latte.LatteIsAHorse.model.user.LatteStackInfoReason;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface QuizService {
 
     Long deleteTempSavedQuiz(Quiz quiz);
 
-    Long issueLatteStack(Long quizId, String userEmail);
+    Long issueLatteStack(Long quizId, String userEmail, LatteStackInfoReason reason);
 
     List<AllQuizRes> allQuizList();
 

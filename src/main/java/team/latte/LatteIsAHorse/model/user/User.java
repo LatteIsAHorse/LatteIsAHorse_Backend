@@ -114,4 +114,8 @@ public class User {
     public void addLatteStack() {
         this.latteStack++;
     }
+
+    public void subtractLatteStack() {
+        this.latteStack -= 30;
+    }
 }
