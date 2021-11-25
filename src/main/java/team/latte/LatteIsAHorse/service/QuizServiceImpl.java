@@ -247,8 +247,22 @@ public class QuizServiceImpl implements QuizService {
      * @param userEmail : 유저 이메일
      * @return
      */
+    @Override
     public List<AllQuizRes> allQuizListByUsername(String userEmail) {
         List<Quiz> allQuiz = quizRepository.findByUserEmail(userEmail);
+        return AllQuizRes.listOf(allQuiz);
+    }
+
+    /**
+     * 태그별로 퀴즈 목록 조회
+     * @param tagId : 태그 ID
+     * @return
+     */
+    @Override
+    public List<AllQuizRes> allQuizListByTag(Long tagId) {
+        Tag tag = tagRepository.findById(tagId).orElse(null);
+        QuizTag quizTag = quizTagRepository.findByTag(tag).orElse(null);
+        List<Quiz> allQuiz = quizRepository.findByQuizTag(quizTag);
         return AllQuizRes.listOf(allQuiz);
     }
 }

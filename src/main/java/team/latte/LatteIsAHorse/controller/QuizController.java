@@ -62,6 +62,19 @@ public class QuizController {
     }
 
     /**
+     * 태그별로 퀴즈 목록 조회
+     * @param tagId : 태그 ID
+     * @return
+     */
+    @GetMapping("/quiz/tag/{tagId}")
+    public ApiResponse<Object> allQuizListByTag(@PathVariable Long tagId) {
+        List<AllQuizRes> allQuizRes = quizService.allQuizListByTag(tagId);
+
+        return ApiResponse.of(allQuizRes, HttpStatus.OK, ResponseMessage.QUIZ_LIST_SUCCESS);
+    }
+
+
+    /**
      * 퀴즈 세부 조회
      * @param quizId : 조회할 퀴즈 ID
      * @param customUserDetails : 인증된 유저 객체
