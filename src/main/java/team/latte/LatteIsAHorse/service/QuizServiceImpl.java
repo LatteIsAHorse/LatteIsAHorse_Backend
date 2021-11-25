@@ -241,4 +241,14 @@ public class QuizServiceImpl implements QuizService {
         quizLike.changeValid();
         return quizLike.getValid();
     }
+
+    /**
+     * 내가 만든 퀴즈 목록 조회
+     * @param userEmail : 유저 이메일
+     * @return
+     */
+    public List<AllQuizRes> allQuizListByUsername(String userEmail) {
+        List<Quiz> allQuiz = quizRepository.findByUserEmail(userEmail);
+        return AllQuizRes.listOf(allQuiz);
+    }
 }

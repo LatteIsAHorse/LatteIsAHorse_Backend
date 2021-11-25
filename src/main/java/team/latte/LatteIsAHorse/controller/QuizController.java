@@ -109,4 +109,15 @@ public class QuizController {
                 ResponseMessage.QUIZ_LIKE_SUCCESS : ResponseMessage.QUIZ_LIKE_CANCEL_SUCCESS);
     }
 
+    /**
+     * 내가 만든 퀴즈 목록 조회
+     * @param customUserDetails : 인증된 유저 객체
+     * @return
+     */
+    @GetMapping("/mypage/quiz")
+    public ApiResponse<Object> allQuizListByUsername(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        List<AllQuizRes> allQuizRes = quizService.allQuizListByUsername(customUserDetails.getUsername());
+
+        return ApiResponse.of(allQuizRes, HttpStatus.OK, ResponseMessage.QUIZ_LIST_SUCCESS);
+    }
 }

@@ -35,10 +35,10 @@ public class QuizRepository {
     }
 
 
-    public List<Quiz> findByUser(User user) {
+    public List<Quiz> findByUserEmail(String userEmail) {
         return queryFactory
                 .selectFrom(quiz)
-                .where(quiz.user.eq(QUser.user))
+                .where(quiz.user.email.eq(userEmail))
                 .fetch();
     }
 
