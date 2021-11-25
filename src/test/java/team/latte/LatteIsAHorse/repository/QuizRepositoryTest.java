@@ -71,7 +71,7 @@ class QuizRepositoryTest {
     }
 
     @Test
-    void findByUser() {
+    void findByUserEmail() {
 
         // given
         User user = User.builder()
@@ -92,7 +92,7 @@ class QuizRepositoryTest {
         quizRepository.save(quiz2);
 
         // when
-        List<Quiz> QuizzesbyUser = quizRepository.findByUser(user);
+        List<Quiz> QuizzesbyUser = quizRepository.findByUserEmail("1234");
 
         // then
         List<Quiz> expectedQuizzes = Arrays.asList(quiz1,quiz2);

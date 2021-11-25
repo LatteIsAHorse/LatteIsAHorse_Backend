@@ -29,4 +29,6 @@ public interface QuizService {
     boolean isCorrectUserAnswer(UserAnswer userAnswer);
 
     int likeOrCancelQuiz(Long quizId, String userEmail);
+
+    List<AllQuizRes> allQuizListByUsername(String userEmail);
 }
