@@ -56,8 +56,11 @@ public enum ResponseMessage {
     BOOKMARK_LIST_SUCCESS("북마크 조회가 성공했습니다."),
     BOOKMARK_LIST_FAIL("북마크 조회에 실패했습니다."),
 
-    LATTE_STACK_LIST_SUCCESS("라떼 포인트 조회가 성공했습니다."),
-    LATTE_STACK_LIST_FAIL("라떼 포인트 조회에 실패했습니다.");
+    LATTE_STACK_HISTORY_SUCCESS("라떼 포인트 내역 조회가 성공했습니다."),
+    LATTE_STACK_HISTORY_FAIL("라떼 포인트 내역 조회에 실패했습니다."),
+
+    GET_AVAILABLE_LATTE_STACK_SUCCESS("사용 가능한 라떼 포인트 조회가 성공했습니다."),
+    GET_AVAILABLE_LATTE_STACK_FAIL("사용 가능한 라떼 포인트 조회에 실패했습니다.");
 
     private final String message;
 }

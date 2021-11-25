@@ -20,14 +20,24 @@ public class LatteStackInfoController {
     private final LatteStackInfoService latteStackInfoService;
 
     /**
+     * 사용 가능한 라떼 포인트 조회
+     * @param customUserDetails : 인증된 유저 객체
+     * @return
+     */
+    @GetMapping("/mypage/lattepoint")
+    public ApiResponse<Object> getAvailableLattepoint(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        return ApiResponse.of(latteStackInfoService.getAvailableLattepoint(customUserDetails.getUsername()), HttpStatus.OK, ResponseMessage.GET_AVAILABLE_LATTE_STACK_SUCCESS);
+    }
+
+    /**
      * 라떼 포인트 내역 조회
      * @Param LatteStackInfoSearch : 조회 조건
      * @param customUserDetails : 인증된 유저 객체
      * @return
      */
-    @GetMapping("/mypage/lattepoint")
-    public ApiResponse<Object> allBookmarkList(@ModelAttribute @Valid LatteStackInfoSearch latteStackInfoSearch, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        return ApiResponse.of(latteStackInfoService.allLatteStackInfoList(latteStackInfoSearch, customUserDetails.getUsername()), HttpStatus.OK, ResponseMessage.LATTE_STACK_LIST_SUCCESS);
+    @GetMapping("/mypage/history/lattepoint")
+    public ApiResponse<Object> allLatteStackInfoList(@ModelAttribute @Valid LatteStackInfoSearch latteStackInfoSearch, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        return ApiResponse.of(latteStackInfoService.allLatteStackInfoList(latteStackInfoSearch, customUserDetails.getUsername()), HttpStatus.OK, ResponseMessage.LATTE_STACK_HISTORY_SUCCESS);
     }
 
 }
