@@ -31,4 +31,6 @@ public interface QuizService {
     int likeOrCancelQuiz(Long quizId, String userEmail);
 
     List<AllQuizRes> allQuizListByUsername(String userEmail);
+
+    List<AllQuizRes> allQuizListByTag(Long tagId);
 }

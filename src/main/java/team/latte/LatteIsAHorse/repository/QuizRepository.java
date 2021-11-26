@@ -3,8 +3,7 @@ package team.latte.LatteIsAHorse.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 import team.latte.LatteIsAHorse.model.quiz.Quiz;
-import team.latte.LatteIsAHorse.model.user.QUser;
-import team.latte.LatteIsAHorse.model.user.User;
+import team.latte.LatteIsAHorse.model.quiz.QuizTag;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -52,6 +51,13 @@ public class QuizRepository {
     public List<Quiz> findAll() {
         return queryFactory
                 .selectFrom(quiz)
+                .fetch();
+    }
+
+    public List<Quiz> findByQuizTag(QuizTag quizTag) {
+        return queryFactory
+                .selectFrom(quiz)
+                .where(quiz.quizTags.contains(quizTag))
                 .fetch();
     }
 }

@@ -7,6 +7,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import team.latte.LatteIsAHorse.model.quiz.Quiz;
 import team.latte.LatteIsAHorse.model.quiz.QuizTag;
+import team.latte.LatteIsAHorse.model.tag.Tag;
+
+import java.util.Optional;
 
 public interface QuizTagRepository extends JpaRepository<QuizTag, Long> {
 
@@ -14,4 +17,6 @@ public interface QuizTagRepository extends JpaRepository<QuizTag, Long> {
     @Transactional
     @Query("DELETE FROM QuizTag q WHERE q.quiz = :quiz")
     void deleteAllByQuiz(@Param("quiz") Quiz quiz);
+
+    Optional<QuizTag> findByTag(Tag tag);
 }
