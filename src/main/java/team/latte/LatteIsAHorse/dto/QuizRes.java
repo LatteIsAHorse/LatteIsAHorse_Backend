@@ -60,6 +60,7 @@ public class QuizRes {
     }
 
     @Data
+    @NoArgsConstructor
     static class AnswerDto {
 
         private Long answerId;
