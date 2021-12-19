@@ -2,6 +2,7 @@ package team.latte.LatteIsAHorse.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.latte.LatteIsAHorse.dto.AllQuizRes;
@@ -152,6 +153,7 @@ public class QuizServiceImpl implements QuizService {
      * 퀴즈 목록 조회
      * @return
      */
+    @Cacheable(value = "quizList", cacheManager = "quizCacheManager")
     @Override
     public List<AllQuizRes> allQuizList() {
         List<Quiz> allQuiz = quizRepository.findAll();
@@ -162,6 +164,7 @@ public class QuizServiceImpl implements QuizService {
      * 퀴즈 세부 조회
      * @return
      */
+    @Cacheable(value = "quiz", key = "#quizId", cacheManager = "quizCacheManager")
     @Override
     public QuizRes detail(Long quizId, String userEmail) {
         Quiz quiz = quizRepository.findById(quizId)
