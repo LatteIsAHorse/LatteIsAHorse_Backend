@@ -28,6 +28,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(indexes = @Index(name = "i_user", columnList = "email"))
 @Entity
 public class User {
 
