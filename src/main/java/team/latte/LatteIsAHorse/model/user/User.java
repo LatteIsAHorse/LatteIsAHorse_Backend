@@ -1,5 +1,19 @@
 package team.latte.LatteIsAHorse.model.user;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,15 +33,11 @@ import team.latte.LatteIsAHorse.model.quiz.QuizLike;
 import team.latte.LatteIsAHorse.model.quiz.ReportSuspicion;
 import team.latte.LatteIsAHorse.model.quiz.UserAnswer;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(indexes = @Index(name = "i_user", columnList = "email"))
 @Entity
 public class User {
 

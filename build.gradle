@@ -85,26 +85,26 @@ configurations {
 }
 
 
-//
-//clean {
-//	delete file(querydslDir) // 인텔리제이 Annotation processor 생성물 생성위치
-//}
-//tasks.withType(JavaCompile) {
-//	options.generatedSourceOutputDirectory = file(querydslDir)
-//}
 
-///**
-// *  compileQuerydsl.doFirst 추가
-// */
-//compileQuerydsl.doFirst {
-//	if ( file(querydslDir).exists() )
-//		delete(file(querydslDir))
-//}
-///**
-// *  compileQuerydsl.doFirst end
-// */
+clean {
+	delete file(querydslDir) // 인텔리제이 Annotation processor 생성물 생성위치
+}
+tasks.withType(JavaCompile) {
+	options.generatedSourceOutputDirectory = file(querydslDir)
+}
+
+/**
+ *  compileQuerydsl.doFirst 추가
+ */
+compileQuerydsl.doFirst {
+	if ( file(querydslDir).exists() )
+		delete(file(querydslDir))
+}
+/**
+ *  compileQuerydsl.doFirst end
+ */
+
 //
-////
-//clean.doLast {
-//	delete file(querydslDir)
-//}
+clean.doLast {
+	delete file(querydslDir)
+}
